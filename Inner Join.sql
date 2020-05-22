@@ -1,3 +1,7 @@
+# Inner Join merupakan perintah untuk menggabungkan data dengan kata kunci kolom yang memiliki nilai sama, 
+kita bisa lihat pada perintah ON b.id_kategori = kat_id_kategori memiliki nilai yang sama, 
+baik di tabel buku maupun tabel kategori . Berikut adalah hasil dari Inner Join tabel.--
+
 SELECT 
 id_buku,
 judul,
