@@ -1,5 +1,5 @@
 SELECT
 judul,
 count(*) as jumlahjudul
-FROM buku_alvitarianikk.buku
+FROM buku.buku
 group by id_kategori
