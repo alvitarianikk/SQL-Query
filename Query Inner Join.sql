@@ -7,5 +7,5 @@ id_buku,
 judul,
 kategori 
 	FROM 
-	buku.bukuku b inner join
+	buku.buku b inner join
 	buku.kategori kat ON b.id_kategori=kat.id_kategori;
