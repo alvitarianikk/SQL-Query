@@ -1,3 +1,3 @@
 SELECT 
 count(Distinct judul)as banyakjudul
-FROM buku.buku;
+FROM buku.bukuku;
