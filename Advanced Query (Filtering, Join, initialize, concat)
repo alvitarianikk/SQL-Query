@@ -1,0 +1,47 @@
+SELECT     a.admin_id, a.first_name AS admin, "new subscription" AS what, s.student_id, CONCAT_WS(" ", s.name, s.last_name) AS student_name, ssp.subject_id, sp.plan_code AS subscription_plan, ssp.expiry_date, ssp.genie_credit AS worksheets, "" AS remarks, ssp.created_date AS transaction_date
+FROM        student_subscription_payment ssp
+INNER JOIN  subscription_plan sp
+ON          ssp.subscription_plan_id = sp.subscription_plan_id
+LEFT JOIN   admin a
+ON          ssp.created_user = a.admin_id
+LEFT JOIN   student s
+ON          ssp.student_id = s.student_id
+WHERE
+ssp.payment_type IN (1,2,3,4,5)
+AND         ssp.created_date >= '2020-12-28'
+AND         ssp.created_date < '2021-01-04'
+UNION ALL
+SELECT      a.admin_id, a.first_name AS admin, "add worksheets" AS what, s.student_id, CONCAT_WS(" ", s.name, s.last_name) AS student_name, sgt.subject_id, "" AS subscription_plan, "" AS expiry_date, sgt.genie_credit AS worksheets, sgt.remark AS remarks, sgt.transaction_date
+FROM        student_genie_transaction sgt
+LEFT JOIN   admin a
+ON          sgt.transaction_user = a.admin_id
+LEFT JOIN   student s
+ON          sgt.student_id = s.student_id
+WHERE       sgt.transaction_type = 4
+AND         sgt.transaction_date >= '2020-12-28'
+AND         sgt.transaction_date < '2021-01-04'
+UNION ALL
+SELECT      a.admin_id, a.first_name AS admin, "update expiry" AS what, s.student_id, CONCAT_WS(" ", s.name, s.last_name) AS student_name, ssp.subject_id, sp.plan_code AS subscription_plan, ssp.expiry_date, ssp.genie_credit AS worksheets, ssp.payment_reference AS remarks, ssp.created_date AS transaction_date
+FROM        student_subscription_payment ssp
+LEFT JOIN   subscription_plan sp
+ON          ssp.subscription_plan_id = sp.subscription_plan_id
+LEFT JOIN   admin a
+ON          ssp.created_user = a.admin_id
+LEFT JOIN   student s
+ON          ssp.student_id = s.student_id
+WHERE       ssp.created_user != 0
+AND         ssp.created_date >= '2020-12-28'
+AND         ssp.created_date < '2021-01-04'
+AND         ssp.payment_type = -1
+UNION ALL
+SELECT      a.admin_id, a.first_name AS admin, "retail channel" AS what, s.student_id, CONCAT_WS(" ", s.name, s.last_name) AS student_name, ssp.subject_id, sp.plan_code AS subscription_plan, ssp.expiry_date, ssp.genie_credit AS worksheets, ssp.payment_reference AS remarks, ssp.created_date AS transaction_date
+FROM        student_subscription_payment ssp
+INNER JOIN  subscription_plan sp
+ON          ssp.subscription_plan_id = sp.subscription_plan_id
+LEFT JOIN   admin a
+ON          ssp.created_user = a.admin_id
+LEFT JOIN   student s
+ON          ssp.student_id = s.student_id
+WHERE       ssp.payment_type=11
+AND         ssp.created_date >= '2020-12-28'
+AND         ssp.created_date < '2021-01-04'
